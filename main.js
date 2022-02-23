@@ -52,7 +52,28 @@ const createClient = (client) => {
   setLocalStorage(dbClient)
 }
 
+//INTERAÇÃO COM O USUÁRIO
+const isValidfield = () => {
+  return document.getElementById('form').reportValidity();
+}
+
+const saveClient = () => {
+  if (isValidfield()) {
+    const client = {
+      nome: document.getElementById('nome').value,
+      celular: document.getElementById('celular').value,
+      email: document.getElementById('email').value,
+      cidade: document.getElementById('cidade').value
+    }
+    createClient(client);
+  }
+}
+
+
+
 //eventos / get traz as informações
 document.getElementById('cadastrarClientes').addEventListener('click', openModal);
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
+
+document.getElementById('salvar').addEventListener('click', saveClient);
