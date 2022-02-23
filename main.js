@@ -12,23 +12,47 @@ const closeModal = () => document.getElementById('modal').classList.remove('acti
 
 //variável global
 const tempClient = {
-  nome: "Mateus",
-  email: "mateus@gmail.com",
+  nome: "brenda",
+  email: "brenda@gmail.com",
   celular: "12324456777",
   cidade: "Washington-DC"
 }
 
+//pega as informações no BD, transforma em JSON e armazena em uma variável 'db_client'
+const getLocalStorage = () => JSON.parse(localStorage.getItem('db_client')) ?? [];
+
 // set pega as informações
+// manda as informações acrescentadas de volta ('db_client'=key, JSON.stringify= value)
+const setLocalStorage = (dbClient) =>  localStorage.setItem("db_client", JSON.stringify(dbClient));
+
+
+//DELETE
+const deleteClient = (index) => {
+  const dbClient = readClient();
+  dbClient.splice(index, 1);
+  setLocalStorage(dbClient);
+}
+
+//UPDATE
+const updateClient = (index, client) => {
+  const dbClient = readClient();
+  dbClient[index] = client;
+  setLocalStorage(dbClient);
+}
+
+//READ
+const readClient = () => getLocalStorage();
+
+//CREATE
 const createClient = (client) => {
-  //pega as informações no BD, transforma em JSON e armazena em uma variável 'db_client'
-  const db_client = JSON.parse(localStorage.getItem('db_client'))
-  // push -> acrescenta + 1cliente que chegou no meu parâmetro
-  db_client.push (client)
-  // manda as informações acrescentadas de volta ('db_client'=key, JSON.stringify= value)
-  localStorage.setItem("db_client", JSON.stringify(db_client))
+  const dbClient = getLocalStorage();
+  console.log(dbClient);
+  dbClient.push(client)
+  console.log(dbClient);
+  setLocalStorage(dbClient)
 }
 
 //eventos / get traz as informações
-document.getElementById('cadastrarCliente').addEventListener('click', openModal);
+document.getElementById('cadastrarClientes').addEventListener('click', openModal);
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
