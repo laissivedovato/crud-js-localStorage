@@ -26,12 +26,14 @@
 }
 
 .modal-header {
+    color: #fff;
     display: flex;
     position: relative;
     justify-content: center;
     height: 40px;
     line-height: 40px;
-    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
 }
 
 .modal-close {
@@ -96,3 +98,11 @@
         width:100%;
     }
 }
+
+.modal-text {
+     display: flex;
+    position: relative;
+    justify-content: center;
+    padding: 10px;
+}
+

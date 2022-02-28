@@ -1,6 +1,8 @@
 // define que o JS seja executado de forma estrita
 'use strict'
 
+let selectedClient;
+
 // cria constante que vai receber uma função que adiciona
 // à lista de classes do elemento '#modal' a classe 'active'
 const openModal = () => document.getElementById('modal').classList.add('active');
@@ -8,9 +10,9 @@ const openModal = () => document.getElementById('modal').classList.add('active')
 /**
  * cria a constante que vai receber a função que remove da lista de classes do elemento '#modal' a classe 'active'
  */
-const closeModal = () => {
+const closeModal = (idModal) => {
   clearFields();
-  document.getElementById('modal').classList.remove('active');
+  document.getElementById(idModal).classList.remove('active');
 }
 
 
@@ -27,6 +29,8 @@ const deleteClient = (index) => {
   const dbClient = readClient();
   dbClient.splice(index, 1);
   setLocalStorage(dbClient);
+  updateTable();
+  closeModal("modalConfirm");
 }
 
 //UPDATE
@@ -42,9 +46,7 @@ const readClient = () => getLocalStorage();
 //CREATE
 const createClient = (client) => {
   const dbClient = getLocalStorage();
-  console.log(dbClient);
   dbClient.push(client)
-  console.log(dbClient);
   setLocalStorage(dbClient)
 }
 
@@ -55,9 +57,9 @@ const isValidfields = () => {
 
 //limpa os campos no modal "novo cliente"
 const clearFields = () => {
-  const fields = document.querySelectorAll('.modal-field');
+  const fields = document.querySelectorAll('.modal-field')
   fields.forEach(field => field.value = "");
-
+  document.getElementById('nome').dataset.index = 'new';
 }
 
 /**
@@ -75,11 +77,11 @@ const saveClient = () => {
     if (index == 'new') {
       createClient(client);
       updateTable();
-      closeModal();
+      closeModal("modal");
     } else {
       updateClient(index, client);
       updateTable();
-      closeModal();
+      closeModal("modal");
     }
   }
 }
@@ -92,23 +94,22 @@ const createRow = (client, index) => {
     <td>${client.email}</td>
     <td>${client.cidade}</td>
     <td>
-    <button type="button" class="button green" id="edit-${index}">Editar</button>
+    <button type="button" class="button yellow" id="edit-${index}">Editar</button>
     <button type="button" class="button red" id="delete-${index}">Excluir</button>
     </td>
   `
   document.querySelector('#tableClient>tbody').appendChild(newRow);
 }
 
-const clearTable = () =>{
-  const rows = document.querySelectorAll('#tableClient>tbody tr');
+const clearTable = () => {
+  const rows = document.querySelectorAll('#tableClient>tbody tr')
   rows.forEach(row => row.parentNode.removeChild(row));
 }
 
 
 const updateTable = () => {
-  const dbClient = readClient();
   clearTable();
-  dbClient.forEach(createRow);
+  readClient().forEach(createRow);
 }
 
 const fillFields = (client) => {
@@ -125,24 +126,18 @@ const fillFields = (client) => {
   client.index = index;
   fillFields(client);
   openModal();
-
 }
 
 // botão de editar e excluir cadastro
 const editDelete = (event) => {
   if (event.target.type == 'button') {
-    const [action, index] = event.target.id.split('-');
+   const [action, index] = event.target.id.split('-');
 
     if (action == 'edit') {
       editClient(index)
     } else {
-      const client = readClient()[index];
-    const response = confirm(`Deseja realmente excluir o cliente ${client.nome}`); {
-      if (response) {
-        deleteClient(index);
-        updateTable();
-      }
-    }
+      selectedClient = readClient()[index];
+      document.getElementById('modalConfirm').classList.add('active');
     }
   }
 }
@@ -150,10 +145,18 @@ const editDelete = (event) => {
 updateTable()
 
 //eventos / get traz as informações
-document.getElementById('cadastrarClientes').addEventListener('click', openModal);
+document.getElementById('registerClients').addEventListener('click', openModal);
 
-document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalClose').addEventListener('click', () => closeModal("modal"));
+
+document.getElementById('modalConfirmClose').addEventListener('click', () => closeModal("modalConfirm"));
+
+document.getElementById('cancel').addEventListener('click', () => closeModal("modal"));
+
+document.getElementById('cancelConfirm').addEventListener('click', () => closeModal("modalConfirm"));
 
 document.getElementById('salvar').addEventListener('click', saveClient);
 
 document.querySelector('#tableClient>tbody').addEventListener('click', editDelete);
+
+document.getElementById('excludeConfirm').addEventListener('click', () => deleteClient(selectedClient));

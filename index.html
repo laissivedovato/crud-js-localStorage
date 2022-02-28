@@ -9,8 +9,6 @@
   <link rel="stylesheet" href="./css/button.css">
   <link rel="stylesheet" href="./css/records.css">
   <link rel="stylesheet" href="./css/modal.css">
-  <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,200;1,800&display=swap"
-      rel="stylesheet">
 </head>
 <body>
   <header>
@@ -18,7 +16,7 @@
   </header>
 
   <main>
-    <button type="button" class="button blue mobile" id="cadastrarClientes"> Cadastrar Clientes</button>
+    <button type="button" class="button blue mobile" id="registerClients"> Cadastrar Clientes</button>
     <table class="records" id="tableClient">
       <thead>
         <tr>
@@ -31,38 +29,6 @@
       </thead>
 
       <tbody>
-        <!-- <tr>
-          <td>Maria</td>
-          <td>maria@gmail.com</td>
-          <td>(14) 97165-1111</td>
-          <td>Rio de Janeiro</td>
-          <td>
-            <button type="button" class="button green"> editar</button>
-            <button type="button" class="button red">excluir</button>
-          </td>
-        </tr>
-
-        <tr>
-          <td>João Pedro</td>
-          <td>joao@gmail.com</td>
-          <td>(11) 97165-2222</td>
-          <td>Jandira</td>
-          <td>
-            <button type="button" class="button green">editar</button>
-            <button type="button" class="button red"> excluir</button>
-          </td>
-        </tr>
-
-        <tr>
-          <td>Jose da Silva</td>
-          <td>jose@gmail.com</td>
-          <td>(11) 97165-3333</td>
-          <td>Roque</td>
-          <td>
-            <button type="button" class="button green">editar</button>
-            <button type="button" class="button red">excluir</button>
-          </td>
-        </tr> -->
       </tbody>
     </table>
 
@@ -80,9 +46,26 @@
         </form>
         <footer class="modal-footer">
           <button class="button green" id="salvar">Salvar</button>
-          <button class="button blue" id="cancelar">Cancelar</button>
+          <button class="button blue" id="cancel">Cancelar</button>
         </footer>
       </div>
+    </div>
+
+    <div class="modal" id="modalConfirm">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2>Excluir Cadastro</h2>
+          <span class="modal-close" id="modalConfirmClose">&#10006;</span>
+        </header>
+        <section class="modal-text">
+          <p>Deseja excluir este cadastro permanentemente?</p>
+        </section>
+        <footer class="modal-footer">
+          <button class="button green" id="excludeConfirm">Confirmar</button>
+          <button class="button blue" id="cancelConfirm">Cancelar</button>
+        </footer>
+      </div>
+
     </div>
   </main>
 
