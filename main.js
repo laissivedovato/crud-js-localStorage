@@ -51,6 +51,7 @@ const createClient = (client) => {
 }
 
 //INTERAÇÃO COM O USUÁRIO
+//validação dos campos
 const isValidfields = () => {
   return document.getElementById('form').reportValidity();
 }
@@ -86,6 +87,7 @@ const saveClient = () => {
   }
 }
 
+//cria uma nova linha para cadastrar novo cliente
 const createRow = (client, index) => {
   const newRow = document.createElement('tr')
   newRow.innerHTML = `
@@ -101,17 +103,20 @@ const createRow = (client, index) => {
   document.querySelector('#tableClient>tbody').appendChild(newRow);
 }
 
+//limpa tabela
 const clearTable = () => {
   const rows = document.querySelectorAll('#tableClient>tbody tr')
   rows.forEach(row => row.parentNode.removeChild(row));
 }
 
-
+//atualiza o BD, limpa, lê o novo cliente incluido, e cria uma nova linha
 const updateTable = () => {
+  const dbClient = readClient()
   clearTable();
-  readClient().forEach(createRow);
+  dbClient.forEach(createRow);
 }
 
+//preenchimento dos campos com os dados dos clientes
 const fillFields = (client) => {
   document.getElementById('nome').value = client.nome;
   document.getElementById('celular').value = client.celular;
@@ -136,7 +141,7 @@ const editDelete = (event) => {
     if (action == 'edit') {
       editClient(index)
     } else {
-      selectedClient = readClient()[index];
+      selectedClient = index;
       document.getElementById('modalConfirm').classList.add('active');
     }
   }
